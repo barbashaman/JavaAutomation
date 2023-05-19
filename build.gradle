@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+}
+
+def seleniumVersion = '4.9.1'
+
+group = project.findProperty('group') ?: 'org.example'
+version = project.findProperty('version') ?: '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: seleniumVersion
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-api', version: seleniumVersion
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: seleniumVersion
+    implementation("org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion")
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-support', version: seleniumVersion
+    implementation("org.seleniumhq.webdriver:webdriver-common:0.9.7376")
+    implementation group: 'org.seleniumhq.webdriver', name: 'webdriver-common', version: '0.9.7376'
+    implementation group: 'org.seleniumhq.webdriver', name: 'webdriver-support', version: '0.9.7376'
+    implementation group: 'org.seleniumhq.webdriver', name: 'webdriver-chrome', version: '0.9.7376'
+    implementation group: 'org.seleniumhq.webdriver', name: 'webdriver-selenium', version: '0.9.7376'
+    implementation 'junit:junit:4.13.1'
+
+    testImplementation(platform('org.junit:junit-bom:5.9.3'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+}
+
+test {
+    useJUnit()
+}
