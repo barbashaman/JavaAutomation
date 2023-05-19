@@ -1,64 +1,48 @@
 package testcases.web;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-
-import static java.lang.Thread.sleep;
+import pageObjects.GoogleHomePage;
+import tasks.GoogleSearchTask;
+import utils.web.WebDriverCommon;
+import utils.web.WebDriverFactory;
+import utils.config.PropertiesUtils;
 
 public class ExampleGoogleSearchUsingPlainSeleniumTest {
 
     private WebDriver driver;
-    private WebDriverWait wait;
-
+    private WebDriverCommon common;
+    private String URL;
+    private GoogleSearchTask googleSearchTask;
 
     @Before
-    public void setUp(){
-        WebDriverManager.chromedriver().setup();
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized"); // Maximize the window
-        options.addArguments("--disable-extensions"); // Disable extensions (if needed)
-        options.addArguments("--disable-popup-blocking"); // Disable popup blocking (if needed)
-        options.setAcceptInsecureCerts(true); // Accept insecure certificates (if needed)
-        options.setCapability("acceptInsecureCerts", true);
-
-        driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Initialize WebDriverWait with a timeout of 10 seconds
-
+    public void setUp() {
+        driver = WebDriverFactory.getWebDriver();
+        common = new WebDriverCommon(driver);
+        URL = new PropertiesUtils().getProperty("url");
+        googleSearchTask = new GoogleSearchTask();
+        common.open(URL);
     }
 
     @Test
     public void validateGoogleSearchForCheeseTest() {
-        driver.get("https://www.google.com");
-        WebElement acceptAllCookies = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/div[contains(text(),'Accept all')]")));
-        acceptAllCookies.click();
+        googleSearchTask.acceptAllCookies();
 
-        WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("q")));
-        searchBox.sendKeys("cheese");
-        searchBox.sendKeys(Keys.RETURN);
+        googleSearchTask.searchFor("cheese");
 
-        WebElement searchResults = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("search")));
-        boolean isCheeseIncluded = searchResults.getText().toLowerCase().contains("cheese");
+        boolean isCheeseIncluded = googleSearchTask.isSearchResultVisible("cheese");
 
         Assert.assertTrue("Cheese is not included in the search results.", isCheeseIncluded);
     }
 
     @After
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }
