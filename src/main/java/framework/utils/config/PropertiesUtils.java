@@ -1,4 +1,4 @@
-package utils.config;
+package framework.utils.config;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

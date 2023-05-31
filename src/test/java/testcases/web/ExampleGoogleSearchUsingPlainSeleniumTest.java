@@ -5,11 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import pageObjects.GoogleHomePage;
 import tasks.GoogleSearchTask;
-import utils.web.WebDriverCommon;
-import utils.web.WebDriverFactory;
-import utils.config.PropertiesUtils;
+import framework.utils.web.WebDriverCommon;
+import framework.utils.web.WebDriverFactory;
+import framework.utils.config.PropertiesUtils;
 
 public class ExampleGoogleSearchUsingPlainSeleniumTest {
 

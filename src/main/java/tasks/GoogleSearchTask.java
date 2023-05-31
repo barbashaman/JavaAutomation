@@ -24,8 +24,8 @@ public class GoogleSearchTask {
     }
 
     public boolean isSearchResultVisible(String keyword) {
-        WebElement searchResults = this.googleHomePage.getSearchResults();
-        return searchResults.getText().toLowerCase().contains(keyword.toLowerCase());
+        return this.googleHomePage.getSearchResults().labelContainsText(keyword);
+
     }
 
     public void searchFor(String keyword) {
