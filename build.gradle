@@ -28,7 +28,13 @@ dependencies {
     testImplementation(platform('org.junit:junit-bom:5.9.3'))
     testImplementation('org.junit.jupiter:junit-jupiter')
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.3.3'
-    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+
+    // For testing REST APIs
+    testImplementation 'io.rest-assured:rest-assured:4.5.1'
+    // For JSON schema validation
+    testImplementation 'io.rest-assured:json-schema-validator:4.5.1'
+    // For reading JSON nodes
+    testImplementation 'com.jayway.jsonpath:json-path:2.6.0'
 }
 
 test {
