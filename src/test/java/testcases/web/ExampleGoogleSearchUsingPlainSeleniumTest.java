@@ -1,29 +1,32 @@
 package testcases.web;
 
+import framework.context.WebSession;
+import framework.utils.config.PropertiesUtils;
+import framework.utils.web.WebDriverCommon;
+import framework.utils.web.WebDriverFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import tasks.GoogleSearchTask;
-import framework.utils.web.WebDriverCommon;
-import framework.utils.web.WebDriverFactory;
-import framework.utils.config.PropertiesUtils;
 
 public class ExampleGoogleSearchUsingPlainSeleniumTest {
 
+    private PropertiesUtils config;
     private WebDriver driver;
     private WebDriverCommon common;
-    private String URL;
     private GoogleSearchTask googleSearchTask;
 
     @Before
     public void setUp() {
-        driver = WebDriverFactory.getWebDriver();
-        common = new WebDriverCommon(driver);
-        URL = new PropertiesUtils().getProperty("url");
+        config = new PropertiesUtils();
+        driver = WebDriverFactory.createDriver(config);
+        int waitSeconds = config.getIntegerProperty("wait", 10);
+        WebSession.bind(driver, waitSeconds);
+        common = new WebDriverCommon(driver, config);
         googleSearchTask = new GoogleSearchTask();
-        common.open(URL);
+        common.open(config.getProperty("url", "https://www.google.com"));
     }
 
     @Test
@@ -39,9 +42,6 @@ public class ExampleGoogleSearchUsingPlainSeleniumTest {
 
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        WebSession.unbind();
     }
-
 }

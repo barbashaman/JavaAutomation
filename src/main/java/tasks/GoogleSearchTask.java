@@ -1,7 +1,6 @@
 package tasks;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import pageObjects.GoogleConsentModal;
 import pageObjects.GoogleHomePage;
 
 public class GoogleSearchTask {
@@ -11,8 +10,11 @@ public class GoogleSearchTask {
         this.googleHomePage = new GoogleHomePage();
     }
 
+    /**
+     * Accepts Google's consent / cookie modal when shown (iframe or main document).
+     */
     public void acceptAllCookies() {
-        this.googleHomePage.getAcceptAllCookiesButton().click();
+        GoogleConsentModal.acceptIfPresent();
     }
 
     public void enterSearchKeyword(String keyword) {
